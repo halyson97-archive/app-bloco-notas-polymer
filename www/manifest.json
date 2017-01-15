@@ -1,0 +1,6 @@
+{
+  "name": "app-bloco-notas",
+  "short_name": "app-bloco-notas",
+  "start_url": "/",
+  "display": "standalone"
+}
