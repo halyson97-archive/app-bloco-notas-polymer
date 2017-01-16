@@ -1,26 +1,128 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="./app-bloco-notas-form.html">
+<link rel="import" href="./app-bloco-notas-notas.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<!--<link rel="import" href="../../bower_components/app-states/app-states.html">-->
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <dom-module id="app-bloco-notas-app">
   <template>
     <style>
       :host {
         display: block;
+        display: flex;  
+        justify-content: center;
+        background-color:var(--paper-grey-300);
+        min-height: 100vh;
       }
+      #toolbar{
+        width: 100%;
+        position: fixed;
+        z-index: 2;
+      }
+      #conteudo{
+        width: 90%;
+        /*background: blue;*/
+        padding-top: 55px;
+        padding-bottom: 10px;
+      }
+     
+      paper-icon-button{
+          color: white;
+      }
+      
+
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <app-localstorage-document key="notas" data="{{notas}}"></app-localstorage-document>
+
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+    
+    <section id="toolbar">
+      <paper-toolbar>
+        <span class="title">Bloco de notas</span>
+        <iron-selector selected="{{page}}" attr-for-selected="name" role="navigation">
+          <a name="form" href="/form"><paper-icon-button icon="add">+</paper-icon-button></a>
+         </iron-selector>
+      </paper-toolbar>
+    </section>
+
+    
+<section id="conteudo">
+      <iron-pages
+              selected="{{page}}"
+              attr-for-selected="name"
+              fallback-selection="notas"
+              role="main">
+            <app-bloco-notas-form name="form" notas="{{notas}}"></app-bloco-notas-form>
+            
+            <app-bloco-notas-notas class="notas" name="notas" notas="{{notas}}"></app-bloco-notas-notas>
+            
+      </iron-pages>
+    
+</section>
+
+    <!--<section id="addNotas" is="states-section">
+      <app-bloco-notas-form notas="{{notas}}"></app-bloco-notas-form>
+    </section>
+
+    <section id="notas" is="states-section">
+      <app-bloco-notas-notas notas="{{notas}}"></app-bloco-notas-notas>
+    </section>
+    -->
+
+
   </template>
 
   <script>
     Polymer({
 
       is: 'app-bloco-notas-app',
-
       properties: {
-        prop1: {
+        notas: {
+          type: Array,
+          value: function(){return [];},
+        },
+        page: {
           type: String,
-          value: 'app-bloco-notas-app',
+          reflectToAttribute: true,
+          observer: '_pageChanged',
         },
       },
+      observers: [
+        "_notasChanged(notas.*)",
+        '_routePageChanged(routeData.page)'
+      ],
+       _routePageChanged: function(page) {
+        this.page = page || 'notas';
+
+      },
+
+      _notasChanged: function(){
+        console.log("A partir do observador do host")
+        console.log(this.notas)
+      },
+       _pageChanged: function(page) {
+        // Load page import on demand. Show 404 page if fails
+        var resolvedPageUrl = this.resolveUrl('app-bloco-notas-' + page + '.html');
+        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      },
+
+      _showPage404: function() {
+        this.page = 'notas';
+      },
+      
 
     });
   </script>

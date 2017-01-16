@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-styles/default-theme.html">
+
+<dom-module id="app-bloco-notas-notas">
+    <template>
+        <style>
+            :host{
+                display: block;
+
+            }
+            paper-card{
+                display: block;
+                margin-top: 1em;
+                
+            }
+            paper-card .card-header{
+                margin-left: 20px;
+                padding: 10px;
+                font-size: 1.5em;
+                color: var(--paper-grey-700);
+            }
+            .card-content{
+                margin-left: 20px;
+                padding: 20px;
+                color: var(--paper-grey-600);
+            }
+            .categoria{
+                font-size: 0.8em;
+                color: var(--paper-grey-500);
+            }
+            .Simples{
+                background-color: red;
+            }
+            .Media{
+                background-color: blue;
+            }
+            .Importante{
+                background-color: green;
+            }
+        </style>
+
+        <template is="dom-repeat" hidden$=[[!notas]] items="{{notas}}" as="nota">
+            
+            <paper-card elevation="3" animated-shadow="false" class="{{nota.categoria}}">
+              <div class="card-header">
+                {{nota.titulo}} <span class="categoria">({{nota.categoria}})</span>
+            </div>
+              <div class="card-content">
+                  {{nota.nota}}
+              </div>
+              <div class="card-actions">
+                
+              </div>
+            </paper-card>
+            
+            
+        </template>
+        
+
+    </template>
+    <script>
+        Polymer({
+            is: "app-bloco-notas-notas",
+            properties:{
+                notas: Array,
+                notify: true
+            }
+        })
+    </script>
+
+</dom-module>
