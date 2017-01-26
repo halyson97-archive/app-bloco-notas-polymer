@@ -8,6 +8,7 @@
     "iron-form": "PolymerElements/iron-form#^1.1.4",
     "paper-input": "PolymerElements/paper-input#^1.1.22",
     "app-states": "app-states#^0.6.9",
+    "dna-router": "https://github.com/brainstormingtrooper/dna-router.git",
     "app-route": "PolymerElements/app-route#^0.9.0",
     "paper-card": "PolymerElements/paper-card#^1.1.4",
     "iron-elements": "PolymerElements/iron-elements",
@@ -16,7 +17,9 @@
     "app-storage": "PolymerElements/app-storage",
     "paper-listbox": "polymerelements/paper-listbox#^1.1.2",
     "paper-item": "polymerelements/paper-item#^1.2.1",
-    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.4.3"
+    "paper-dropdown-menu": "PolymerElements/paper-dropdown-menu#^1.4.3",
+    "iron-swipeable-container": "PolymerElements/iron-swipeable-container#^1.0.3",
+    "paper-ripple": "PolymerElements/paper-ripple#^1.0.10"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

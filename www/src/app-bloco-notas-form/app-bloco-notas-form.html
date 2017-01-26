@@ -1,0 +1,161 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+
+<dom-module id="app-bloco-notas-form">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+            paper-card{
+                width: 400px;
+                text-align: left;
+                
+            }
+            @media screen and (min-width: 400px){
+                paper-card{
+                    width: 350px;
+                }
+            }
+            @media screen and (max-width: 399px){
+                paper-card{
+                    width: 97%;
+                }
+            }
+            .card-headers{
+                height: 40px;
+                text-align: center;
+                line-height: 40px;
+                font-size: 1.3em;
+            }
+			.card-content{
+                padding-top: 0px;
+                padding-bottom: 0px;
+            }
+            .button{
+                width: 100%;
+                height: 35px;
+                border: 0;
+                outline: none;
+                background-color: #3F51B5;
+                color: #fff;
+                font-size: 1.2em;
+            }
+            .card-actions{
+                background-color: #3F51B5;
+                position: relative;
+            }
+            .close{
+                float: right;
+                color: red;
+            }
+
+            .sucesso{
+                width: 100%;
+                height: 250px;
+                padding-top: 50px;
+                background: #fff;
+                position: fixed;
+                z-index: 2;
+            }
+            .sucesso > img{
+                width: 200px;
+                height: 200px;
+            }
+            /*.sucesso > .salvo{
+                width: 100%;
+                height: 50px;
+                
+                font-size: 1.8em;
+                color: #9CCC65;
+                font-weight: bold;
+            }*/
+            
+		</style>
+
+        <template is="dom-if" if="{{salvar}}">
+
+                    <div class="sucesso">
+                        <img src="../../img/animat-checkmark-color.gif">
+                            
+                    </div>
+        </template>
+
+         <paper-card alt="Emmental">
+            <div class="card-headers">
+                Adicionar Nota
+                <a href="#/"><paper-icon-button class="close" icon="close"></paper-icon-button></a>
+            </div>
+            <form id="form" on-submit="_salvarNotas">
+                <div class="card-content">
+                    
+                    <paper-input id="titulo" label="Titulo" required></paper-input>
+                    <paper-textarea id="nota" label="Nota" required></paper-textarea>
+                    <paper-dropdown-menu id="categoria" label="Categoria" required="true">
+                        <paper-listbox class="dropdown-content">
+                            <paper-item>Simples</paper-item>
+                            <paper-item>Media</paper-item>
+                            <paper-item>Importante</paper-item>
+                        </paper-listbox>
+                    </paper-dropdown-menu>
+
+                </div>
+           
+                <div class="card-actions">
+                    <paper-ripple></paper-ripple>
+                    <input class="button" type="submit" value="Salvar">
+                </div>
+             </form>
+        </paper-card>
+
+
+	</template>
+	<script>
+		Polymer({
+			is: 'app-bloco-notas-form',
+            properties:{
+                notas:{
+                    type: Array,
+                    value: []
+                },
+                salvar:{
+                    type: Boolean,
+                    value: false
+                }
+            },
+            _salvarNotas: function(){
+                var notasObj = {
+                    titulo: this.$.titulo.value,
+                    nota: this.$.nota.value,
+                    categoria: this.$.categoria.value
+                };
+
+                if(localStorage.getItem('notas')){
+                    this.notas = JSON.parse(localStorage.getItem('notas'));
+                }
+                
+                
+                
+                this.push("notas", notasObj);
+                
+                localStorage.setItem('notas', JSON.stringify(this.notas));
+
+                this.salvar = true;
+
+                setTimeout(()=>{
+                     window.location.hash = "/";
+                },1800)
+
+               
+                event.preventDefault();
+            }
+					
+		});
+	</script>
+</dom-module>

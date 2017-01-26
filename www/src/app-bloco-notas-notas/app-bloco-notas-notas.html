@@ -1,0 +1,95 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-swipeable-container/iron-swipeable-container.html">
+
+<dom-module id="app-bloco-notas-notas" unresolved>
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+            paper-card{
+                /*width: 350px;*/
+                margin: auto;
+                margin-top: 10px;
+                top: 65px;
+            }
+            @media screen and (min-width: 400px){
+                paper-card{
+                    width: 350px;
+                }
+            }
+            @media screen and (max-width: 399px){
+                paper-card{
+                    width: 97%;
+                }
+            }
+           
+            .card-headers{
+                min-height: 30px;
+                padding-top: 20px;
+                padding-left: 5px;
+                padding-right: 5px;
+                text-align: justify;
+                font-size: 1.3em;
+                text-indent: 20px;
+                color: #fff;
+                font-weight: bold;
+            }
+            .categoria{
+                font-size: 0.8em;
+                color: #eee;
+                
+            }
+            .card-content{
+                text-align: justify;
+                text-indent: 20px;
+            }
+            .Simples{
+                background-color: #43A047;
+            }
+            .Media{
+                background-color: #FDD835;
+            }
+            .Importante{
+                background-color: #E53935;
+            }
+            
+			
+		</style>
+
+        <template is="dom-repeat" items="{{notas}}">
+            <iron-swipeable-container>
+                <paper-card class$="{{item.categoria}}">
+                    <div class="card-headers">
+                        {{item.titulo}} <span class="categoria">({{item.categoria}})</span>
+                    </div>
+
+                    <div class="card-content">
+                        {{item.nota}}
+
+                    </div>
+            
+                </paper-card>
+            </iron-swipeable-container>
+        </template>
+
+
+	</template>
+	<script>
+		Polymer({
+			is: 'app-bloco-notas-notas',
+            properties:{
+                notas:{
+                    type: Array,
+                    value: []
+                }
+            },
+            attached:function(){
+                this.notas = JSON.parse(localStorage.getItem('notas'));
+                console.log(this.notas);
+            }
+					
+		});
+	</script>
+</dom-module>
